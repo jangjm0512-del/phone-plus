@@ -1,15 +1,15 @@
 
 import React from 'react';
 import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { AppProvider, useAppContext } from './AppContext';
-import Home from './pages/Home';
-import Sell from './pages/Sell';
-import PriceList from './pages/PriceList';
-import Notice from './pages/Notice';
-import AdminDashboard from './pages/AdminDashboard';
+import { AppProvider, useAppContext } from './AppContext.tsx';
+import Home from './pages/Home.tsx';
+import Sell from './pages/Sell.tsx';
+import PriceList from './pages/PriceList.tsx';
+import Notice from './pages/Notice.tsx';
+import AdminDashboard from './pages/AdminDashboard.tsx';
 import { Menu, X, Phone, User, Settings, MapPin, Clock, MessageCircle, MessageSquare, ChevronRight, Navigation } from 'lucide-react';
 
-const Logo: React.FC<{ light?: boolean }> = ({ light }) => (
+const Logo: React.FC = () => (
   <div className="flex items-center scale-90 md:scale-100 origin-left">
     <div className="bg-[#C80000] px-3 py-1 flex items-center font-black tracking-tighter rounded-sm shadow-md">
       <span className="text-white text-xl md:text-2xl mr-1">Phone</span>
