@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppContext } from '../AppContext';
+import { useAppContext } from '../AppContext.tsx';
 import { 
   ChevronRight, 
   Smartphone, 
@@ -54,7 +53,7 @@ const Home: React.FC = () => {
                 ))}
               </h1>
               <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium">
-                동래역 2번 출구 바로 앞(캐슬퀸 207호)! {config.heroSubtitle}
+                {config.heroSubtitle}
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-stretch">
                 <Link to="/sell" className="bg-[#C80000] hover:bg-[#A00000] text-white px-8 py-5 rounded-2xl font-black text-xl shadow-xl shadow-red-200 transition-all transform hover:-translate-y-1 active:scale-95 flex items-center justify-center gap-2">
