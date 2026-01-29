@@ -1,10 +1,18 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAppContext } from '../AppContext';
-import { Settings, Plus, Trash2, Edit, Save, LogOut, Smartphone, FileText, LayoutDashboard, Image as ImageIcon } from 'lucide-react';
+import { 
+  Settings, Plus, Trash2, Edit, Save, LogOut, Smartphone, 
+  FileText, LayoutDashboard, Eye, EyeOff, Check, X, AlertCircle
+} from 'lucide-react';
 
 const AdminDashboard: React.FC = () => {
-  const { prices, setPrices, posts, setPosts, config, setConfig, isAdmin, setIsAdmin } = useAppContext();
+  const { 
+    prices, setPrices, posts, setPosts, config, setConfig, isAdmin, setIsAdmin,
+    isEditMode, startEditing, saveChanges, discardChanges,
+    draftPrices, setDraftPrices, draftPosts, setDraftPosts, draftConfig, setDraftConfig
+  } = useAppContext();
+  
   const [activeTab, setActiveTab] = useState<'prices' | 'posts' | 'settings'>('prices');
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
@@ -15,7 +23,6 @@ const AdminDashboard: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    // 요청하신 새로운 비밀번호로 변경
     if (password === 'Heths1026@') { 
       setIsAdmin(true);
       setLoginError(false);
@@ -24,9 +31,17 @@ const AdminDashboard: React.FC = () => {
     }
   };
 
+  const toggleEditMode = () => {
+    if (isEditMode) {
+      // Logic for finalizing is handled by Save/Discard buttons
+    } else {
+      startEditing();
+    }
+  };
+
   const addPrice = () => {
     if (!newPrice.brand || !newPrice.model) return;
-    setPrices([...prices, { 
+    const newItem = { 
       id: Date.now().toString(), 
       brand: newPrice.brand, 
       model: newPrice.model, 
@@ -35,22 +50,42 @@ const AdminDashboard: React.FC = () => {
       minPrice: parseInt(newPrice.minPrice) || 0,
       isHot: false,
       imageUrl: newPrice.imageUrl
-    }]);
+    };
+
+    if (isEditMode) {
+      setDraftPrices([...draftPrices, newItem]);
+    } else {
+      setPrices([...prices, newItem]);
+    }
     setNewPrice({ brand: '', model: '', capacity: '', maxPrice: '', minPrice: '', imageUrl: '' });
   };
 
   const deletePrice = (id: string) => {
-    setPrices(prices.filter(p => p.id !== id));
+    if (isEditMode) {
+      setDraftPrices(draftPrices.filter(p => p.id !== id));
+    } else {
+      setPrices(prices.filter(p => p.id !== id));
+    }
   };
 
   const addPost = () => {
     if (!newPost.title || !newPost.content) return;
-    setPosts([{ ...newPost, id: Date.now().toString(), date: new Date().toISOString().split('T')[0], author: '관리자' }, ...posts]);
+    const newItem = { ...newPost, id: Date.now().toString(), date: new Date().toISOString().split('T')[0], author: '관리자' };
+    
+    if (isEditMode) {
+      setDraftPosts([newItem, ...draftPosts]);
+    } else {
+      setPosts([newItem, ...posts]);
+    }
     setNewPost({ title: '', content: '', category: '공지사항' });
   };
 
   const deletePost = (id: string) => {
-    setPosts(posts.filter(p => p.id !== id));
+    if (isEditMode) {
+      setDraftPosts(draftPosts.filter(p => p.id !== id));
+    } else {
+      setPosts(posts.filter(p => p.id !== id));
+    }
   };
 
   if (!isAdmin) {
@@ -87,6 +122,47 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="container mx-auto px-4">
+        
+        {/* Top Preview Bar for Dashboard */}
+        <div className="mb-8 flex flex-col md:flex-row items-center justify-between bg-white p-6 rounded-[2rem] shadow-sm border border-gray-100 gap-4">
+          <div className="flex items-center gap-4">
+            <div className={`p-3 rounded-xl ${isEditMode ? 'bg-indigo-100 text-indigo-600' : 'bg-gray-100 text-gray-400'}`}>
+              {isEditMode ? <Eye size={24} /> : <EyeOff size={24} />}
+            </div>
+            <div>
+              <h3 className="font-black text-lg leading-none mb-1">Live Edit & Preview</h3>
+              <p className="text-xs font-bold text-gray-400">
+                {isEditMode ? '현재 미리보기 모드입니다. 사이트 전역에 변경사항이 즉시 반영됩니다.' : '편집 모드를 켜서 안전하게 수정하고 미리보세요.'}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            {isEditMode ? (
+              <>
+                <button 
+                  onClick={discardChanges}
+                  className="px-6 py-3 rounded-xl border border-gray-200 text-gray-500 font-black flex items-center gap-2 hover:bg-gray-50 transition-all"
+                >
+                  <X size={18} /> 취소
+                </button>
+                <button 
+                  onClick={saveChanges}
+                  className="px-8 py-3 rounded-xl bg-indigo-600 text-white font-black flex items-center gap-2 hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-100"
+                >
+                  <Check size={18} /> 변경사항 저장
+                </button>
+              </>
+            ) : (
+              <button 
+                onClick={toggleEditMode}
+                className="px-8 py-3 rounded-xl bg-gray-900 text-white font-black flex items-center gap-2 hover:bg-black transition-all shadow-lg"
+              >
+                <Edit size={18} /> 편집 모드 시작
+              </button>
+            )}
+          </div>
+        </div>
+
         <div className="flex flex-col lg:flex-row gap-8">
           
           {/* Sidebar */}
@@ -130,26 +206,33 @@ const AdminDashboard: React.FC = () => {
 
           {/* Content Area */}
           <main className="flex-grow">
-            <div className="bg-white p-8 md:p-10 rounded-[2.5rem] shadow-sm border border-gray-100 min-h-[600px]">
+            <div className={`bg-white p-8 md:p-10 rounded-[2.5rem] shadow-sm border min-h-[600px] transition-colors duration-500 ${isEditMode ? 'border-indigo-200' : 'border-gray-100'}`}>
               
+              {isEditMode && (
+                <div className="mb-8 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center gap-3 text-indigo-700">
+                  <AlertCircle size={20} />
+                  <p className="text-sm font-bold">미리보기 편집 중입니다. 상단의 저장 버튼을 눌러야 실제 사이트에 반영됩니다.</p>
+                </div>
+              )}
+
               {activeTab === 'prices' && (
                 <div>
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-                    <h2 className="text-3xl font-black">실시간 매입 시세 관리 (범위형)</h2>
+                    <h2 className="text-3xl font-black">실시간 매입 시세 관리</h2>
                     <div className="bg-yellow-50 text-yellow-700 px-4 py-2 rounded-xl text-sm font-bold">
                       총 {prices.length}개 모델 등록됨
                     </div>
                   </div>
 
                   {/* Add Price Form */}
-                  <div className="bg-gray-50 p-6 rounded-3xl mb-10 space-y-4">
+                  <div className={`p-6 rounded-3xl mb-10 space-y-4 border ${isEditMode ? 'bg-indigo-50/30 border-indigo-100' : 'bg-gray-50 border-gray-100'}`}>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">브랜드</label>
                         <input 
                           type="text" 
                           placeholder="Apple" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-400 outline-none font-bold"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
                           value={newPrice.brand}
                           onChange={(e) => setNewPrice({...newPrice, brand: e.target.value})}
                         />
@@ -159,7 +242,7 @@ const AdminDashboard: React.FC = () => {
                         <input 
                           type="text" 
                           placeholder="iPhone 17" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-400 outline-none font-bold"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
                           value={newPrice.model}
                           onChange={(e) => setNewPrice({...newPrice, model: e.target.value})}
                         />
@@ -169,7 +252,7 @@ const AdminDashboard: React.FC = () => {
                         <input 
                           type="text" 
                           placeholder="https://..." 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-400 outline-none font-bold"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
                           value={newPrice.imageUrl}
                           onChange={(e) => setNewPrice({...newPrice, imageUrl: e.target.value})}
                         />
@@ -181,7 +264,7 @@ const AdminDashboard: React.FC = () => {
                         <input 
                           type="number" 
                           placeholder="2000000" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-400 outline-none font-bold"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
                           value={newPrice.maxPrice}
                           onChange={(e) => setNewPrice({...newPrice, maxPrice: e.target.value})}
                         />
@@ -191,14 +274,14 @@ const AdminDashboard: React.FC = () => {
                         <input 
                           type="number" 
                           placeholder="1500000" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-yellow-400 outline-none font-bold"
+                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
                           value={newPrice.minPrice}
                           onChange={(e) => setNewPrice({...newPrice, minPrice: e.target.value})}
                         />
                       </div>
                       <button 
                         onClick={addPrice}
-                        className="bg-yellow-400 text-black h-[50px] rounded-xl font-black flex items-center justify-center gap-2 hover:bg-yellow-500 transition-all shadow-md shadow-yellow-100"
+                        className={`h-[50px] rounded-xl font-black flex items-center justify-center gap-2 transition-all shadow-md ${isEditMode ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-yellow-400 text-black hover:bg-yellow-500'}`}
                       >
                         <Plus size={20} /> 기종 추가하기
                       </button>
@@ -227,12 +310,12 @@ const AdminDashboard: React.FC = () => {
                             </td>
                             <td className="px-4 py-4 font-bold text-gray-400">{p.brand}</td>
                             <td className="px-4 py-4 font-black">{p.model}</td>
-                            <td className="px-4 py-4 font-black text-yellow-600">
+                            <td className="px-4 py-4 font-black text-indigo-600">
                               {p.maxPrice.toLocaleString()} ~ {p.minPrice.toLocaleString()}원
                             </td>
                             <td className="px-4 py-4">
                               <div className="flex items-center justify-center gap-2">
-                                <button className="p-2 text-gray-400 hover:text-blue-500 transition-colors"><Edit size={18} /></button>
+                                <button className="p-2 text-gray-400 hover:text-indigo-500 transition-colors"><Edit size={18} /></button>
                                 <button onClick={() => deletePrice(p.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={18} /></button>
                               </div>
                             </td>
@@ -247,10 +330,27 @@ const AdminDashboard: React.FC = () => {
               {activeTab === 'posts' && (
                 <div>
                   <h2 className="text-3xl font-black mb-10">게시글 및 소식 관리</h2>
-                  <div className="bg-gray-50 p-8 rounded-3xl mb-12 space-y-4">
-                    <input type="text" placeholder="제목을 입력하세요" className="w-full px-6 py-4 rounded-xl border border-gray-200 outline-none font-bold" value={newPost.title} onChange={(e) => setNewPost({...newPost, title: e.target.value})} />
-                    <textarea placeholder="내용을 입력하세요..." rows={4} className="w-full px-6 py-4 rounded-xl border border-gray-200 outline-none font-medium resize-none" value={newPost.content} onChange={(e) => setNewPost({...newPost, content: e.target.value})}></textarea>
-                    <button onClick={addPost} className="bg-gray-900 text-white px-10 py-4 rounded-xl font-black">게시글 저장</button>
+                  <div className={`p-8 rounded-3xl mb-12 space-y-4 border ${isEditMode ? 'bg-indigo-50/30 border-indigo-100' : 'bg-gray-50 border-gray-100'}`}>
+                    <input 
+                      type="text" 
+                      placeholder="제목을 입력하세요" 
+                      className="w-full px-6 py-4 rounded-xl border border-gray-200 outline-none font-bold focus:border-indigo-400" 
+                      value={newPost.title} 
+                      onChange={(e) => setNewPost({...newPost, title: e.target.value})} 
+                    />
+                    <textarea 
+                      placeholder="내용을 입력하세요..." 
+                      rows={4} 
+                      className="w-full px-6 py-4 rounded-xl border border-gray-200 outline-none font-medium resize-none focus:border-indigo-400" 
+                      value={newPost.content} 
+                      onChange={(e) => setNewPost({...newPost, content: e.target.value})}
+                    ></textarea>
+                    <button 
+                      onClick={addPost} 
+                      className={`px-10 py-4 rounded-xl font-black shadow-lg transition-all ${isEditMode ? 'bg-indigo-600 text-white' : 'bg-gray-900 text-white'}`}
+                    >
+                      게시글 저장
+                    </button>
                   </div>
                   <div className="space-y-4">
                     {posts.map(post => (
@@ -272,13 +372,22 @@ const AdminDashboard: React.FC = () => {
                   <div className="max-w-xl space-y-6">
                     <div>
                       <label className="block text-xs font-black text-gray-400 mb-2 uppercase">사이트 이름</label>
-                      <input type="text" className="w-full px-6 py-4 rounded-xl border-2 border-gray-50 outline-none font-black" value={config.siteName} onChange={(e) => setConfig({...config, siteName: e.target.value})} />
+                      <input 
+                        type="text" 
+                        className="w-full px-6 py-4 rounded-xl border-2 border-gray-50 outline-none font-black focus:border-indigo-400" 
+                        value={isEditMode ? draftConfig.siteName : config.siteName} 
+                        onChange={(e) => isEditMode ? setDraftConfig({...draftConfig, siteName: e.target.value}) : setConfig({...config, siteName: e.target.value})} 
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-black text-gray-400 mb-2 uppercase">대표 번호</label>
-                      <input type="text" className="w-full px-6 py-4 rounded-xl border-2 border-gray-50 outline-none font-black" value={config.contactNumber} onChange={(e) => setConfig({...config, contactNumber: e.target.value})} />
+                      <input 
+                        type="text" 
+                        className="w-full px-6 py-4 rounded-xl border-2 border-gray-50 outline-none font-black focus:border-indigo-400" 
+                        value={isEditMode ? draftConfig.contactNumber : config.contactNumber} 
+                        onChange={(e) => isEditMode ? setDraftConfig({...draftConfig, contactNumber: e.target.value}) : setConfig({...config, contactNumber: e.target.value})} 
+                      />
                     </div>
-                    <button className="bg-green-500 text-white px-10 py-4 rounded-xl font-black shadow-lg">설정 저장</button>
                   </div>
                 </div>
               )}

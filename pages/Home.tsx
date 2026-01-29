@@ -50,92 +50,89 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* 1. 히어로 섹션 */}
-      <section className="relative overflow-hidden bg-white py-16 lg:py-28 border-b border-gray-50">
-        <div className="container mx-auto px-4 md:px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      {/* 1. 히어로 섹션 - 우측 박스 정렬 및 대칭 최적화 */}
+      <section className="relative overflow-hidden bg-white py-10 lg:py-16">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="text-center lg:text-left">
-              <span className="inline-block bg-[#C80000]/5 text-[#C80000] text-xs font-black uppercase tracking-[0.3em] px-4 py-2 mb-8 border-l-4 border-[#C80000]">
-                Busan Premium Used Phone
+              <span className="inline-block bg-[#C80000]/5 text-[#C80000] text-[9px] font-black uppercase tracking-[0.3em] px-2 py-1 mb-4 border-l-3 border-[#C80000]">
+                Premium Used Phone Partner
               </span>
-              <h1 className="text-5xl lg:text-7xl font-black text-gray-900 leading-[1.1] mb-10 tracking-tighter">
+              <h1 className="text-3xl lg:text-4xl font-black text-gray-900 leading-[1.15] mb-6 tracking-tighter">
                 가장 정직한 곳,<br/>
                 <span className="text-[#C80000]">폰플러스</span>에서<br/>
                 내 폰의 가치를 찾으세요.
               </h1>
               
-              <div className="flex flex-col gap-3 max-w-lg mx-auto lg:mx-0">
-                <Link to="/sell" className="bg-[#C80000] hover:bg-black text-white px-10 py-5 font-black text-xl shadow-xl transition-all flex items-center justify-center gap-2 group">
-                  내 폰 시세 확인 <ChevronRight size={24} className="group-hover:translate-x-1 transition-transform" />
+              <div className="flex flex-col gap-2 max-w-sm mx-auto lg:mx-0">
+                <Link to="/sell" className="bg-[#C80000] hover:bg-black text-white px-6 py-3.5 font-black text-base shadow-lg transition-all flex items-center justify-center gap-2 group">
+                  내 폰 시세 확인 <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
-                <div className="grid grid-cols-3 gap-2">
-                  <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="bg-[#FEE500] text-black py-4 font-black text-sm flex flex-col items-center justify-center gap-1 hover:brightness-95 transition-all shadow-sm border border-black/5">
-                    <MessageSquare size={20} />
+                <div className="grid grid-cols-3 gap-1.5">
+                  <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="bg-[#FEE500] text-black py-2.5 font-black text-[10px] flex flex-col items-center justify-center gap-1 hover:brightness-95 transition-all shadow-sm border border-black/5">
+                    <MessageSquare size={16} />
                     <span>카톡상담</span>
                   </a>
-                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white py-4 font-black text-sm flex flex-col items-center justify-center gap-1 hover:brightness-95 transition-all shadow-sm">
-                    <span className="font-black text-xl leading-none">N</span>
+                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white py-2.5 font-black text-[10px] flex flex-col items-center justify-center gap-1 hover:brightness-95 transition-all shadow-sm">
+                    <span className="font-black text-base leading-none">N</span>
                     <span>톡톡상담</span>
                   </a>
-                  {/* 길찾기 버튼: 배경 흰색, 글씨 검정, 아이콘 초록색 채우기 */}
-                  <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-white text-black border border-gray-200 py-4 font-black text-sm flex flex-col items-center justify-center gap-1 hover:bg-gray-50 transition-all shadow-sm">
-                    <Navigation size={20} className="text-[#03C75A]" fill="#03C75A" />
+                  <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-white text-black border border-gray-200 py-2.5 font-black text-[10px] flex flex-col items-center justify-center gap-1 hover:bg-gray-50 transition-all shadow-sm">
+                    <Navigation size={16} className="text-[#03C75A]" fill="#03C75A" />
                     <span>길찾기</span>
                   </a>
                 </div>
               </div>
             </div>
             
-            <div className="relative hidden lg:block">
-               <div className="relative z-10 p-4 transform hover:scale-[1.02] transition-transform duration-500">
-                 <div className="bg-[#C80000] p-16 shadow-[0_30px_60px_-15px_rgba(200,0,0,0.3)] border-b-[20px] border-black flex items-center gap-2 font-black tracking-tighter max-w-lg mx-auto">
+            {/* 우측 로고 박스 - 대칭 정렬을 위해 너비 고정 및 우측 밀착 */}
+            <div className="relative hidden lg:flex lg:justify-end">
+               <div className="w-full max-w-[300px] p-2">
+                 <div className="bg-[#C80000] p-9 shadow-2xl border-b-[10px] border-black flex items-center justify-center gap-2 font-black tracking-tighter w-full">
                     <div className="flex flex-col">
-                      <span className="text-white text-7xl leading-none px-1">Phone</span>
-                      <div className="w-full h-2 bg-white/90 mt-2"></div>
+                      <span className="text-white text-3xl leading-none px-0.5">Phone</span>
+                      <div className="w-full h-1 bg-white/90 mt-1"></div>
                     </div>
-                    <div className="bg-white p-2 ml-1">
-                      <span className="text-[#C80000] text-7xl leading-none uppercase">Plus</span>
+                    <div className="bg-white px-1 py-0.5 ml-0.5">
+                      <span className="text-[#C80000] text-3xl leading-none uppercase">Plus</span>
                     </div>
                  </div>
-                 <div className="text-center mt-12">
-                   <p className="text-gray-400 font-black tracking-[0.5em] text-xl uppercase">Premium Shop</p>
+                 <div className="text-center mt-5">
+                   <p className="text-gray-400 font-black tracking-[0.4em] text-[11px] uppercase">Premium Shop</p>
                  </div>
                </div>
-               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[50%] bg-[#C80000]/10 rounded-full blur-[100px] -z-10"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 2. 선불폰 프로모션 섹션 */}
-      <section className="py-24 bg-[#F9FAFB]">
-        <div className="container mx-auto px-4 md:px-6">
-          <div className="bg-white p-10 md:p-16 border-l-[12px] border-[#C80000] shadow-sm flex flex-col lg:flex-row items-center justify-between gap-16 relative overflow-hidden">
+      {/* 2. 선불폰 프로모션 섹션 - 상단 히어로 박스와 수직 정렬(대칭) */}
+      <section className="py-10 bg-[#F9FAFB]">
+        <div className="container mx-auto px-4 md:px-6 max-w-5xl">
+          <div className="bg-white p-6 md:p-8 border-l-[8px] border-[#C80000] shadow-sm flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
             <div className="flex-1 text-center lg:text-left z-10">
-              <div className="inline-flex items-center gap-2 text-[#C80000] font-black mb-10 uppercase tracking-[0.2em] text-sm">
-                 <Zap size={18} fill="#C80000" /> Special Price Offer
+              <div className="inline-flex items-center gap-1.5 text-[#C80000] font-black mb-4 uppercase tracking-[0.2em] text-[10px]">
+                 <Zap size={14} fill="#C80000" /> Promotion
               </div>
-              <h2 className="text-4xl md:text-6xl font-black text-gray-900 mb-8 leading-[1.1] tracking-tighter">
+              <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-4 leading-tight tracking-tighter">
                 약정 없는 <span className="text-[#C80000]">무제한 선불폰</span><br/>
-                누구나 <span className="bg-gray-900 text-white px-3">당일 즉시</span> 개통
+                누구나 <span className="bg-gray-900 text-white px-1.5">당일 즉시</span> 개통 가능
               </h2>
-              <div className="flex flex-wrap justify-center lg:justify-start gap-4">
-                 {[ "신용불량·연체자 OK", "본인명의 100%", "위약금 없음" ].map((text, i) => (
-                   <span key={i} className="flex items-center gap-2 text-gray-500 font-black text-sm">
-                     <CheckCircle2 className="text-[#C80000]" size={18}/> {text}
+              <div className="flex flex-wrap justify-center lg:justify-start gap-3">
+                 {[ "신용불량·연체 OK", "본인명의 100%", "위약금 제로" ].map((text, i) => (
+                   <span key={i} className="flex items-center gap-1 text-gray-400 font-bold text-[11px]">
+                     <CheckCircle2 className="text-[#C80000]" size={14}/> {text}
                    </span>
                  ))}
               </div>
             </div>
 
-            <div className="w-full lg:w-96 z-10">
-               <div className="bg-gray-50 p-12 text-center flex flex-col items-center border border-gray-100">
-                  <div className="w-20 h-20 bg-[#C80000] text-white flex items-center justify-center mb-8 shadow-lg">
-                    <Wallet size={40} />
-                  </div>
-                  <p className="text-gray-400 font-black text-xs mb-2 uppercase tracking-[0.2em]">개통비 포함 파격가</p>
-                  <p className="text-6xl font-black text-gray-900 mb-10 tracking-tighter italic">10,000<span className="text-xl not-italic ml-1 text-gray-400 font-bold tracking-normal">원</span></p>
-                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="w-full bg-[#03C75A] text-white px-8 py-5 font-black text-xl hover:bg-[#02b351] transition-all flex items-center justify-center gap-2">
+            {/* 우측 가격 박스 - 상단 박스와 동일한 너비(300px) 및 정렬 적용 */}
+            <div className="w-full lg:w-[300px] z-10 lg:flex lg:justify-end">
+               <div className="bg-gray-50/50 p-6 text-center flex flex-col items-center border border-gray-100 w-full max-w-[300px]">
+                  <p className="text-gray-400 font-black text-[9px] mb-1 uppercase tracking-[0.2em]">개통비 포함 파격가</p>
+                  <p className="text-4xl font-black text-gray-900 mb-6 tracking-tighter italic">10,000<span className="text-base not-italic ml-1 text-gray-400 font-bold tracking-normal">원</span></p>
+                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="w-full bg-[#03C75A] text-white px-4 py-3 font-black text-sm hover:bg-[#02b351] transition-all flex items-center justify-center gap-1.5 shadow-md">
                      <span className="font-black">N</span> 톡톡 바로상담
                   </a>
                </div>
@@ -145,41 +142,37 @@ const Home: React.FC = () => {
       </section>
 
       {/* 3. 고객 후기 섹션 */}
-      <section className="py-24 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-6 tracking-tighter text-center">실제 방문 고객 후기</h2>
-            <div className="flex items-center justify-center gap-4">
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-black text-gray-900 mb-3 tracking-tighter">실제 방문 고객 후기</h2>
+            <div className="flex items-center justify-center gap-2">
               <div className="flex gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} size={24} className="fill-[#FEE500] text-[#FEE500]" />)}
+                {[...Array(5)].map((_, i) => <Star key={i} size={16} className="fill-[#FEE500] text-[#FEE500]" />)}
               </div>
-              <span className="text-2xl font-black text-gray-900 tracking-tighter">4.9 / 5.0</span>
+              <span className="text-base font-black text-gray-900 tracking-tighter">4.9 / 5.0</span>
             </div>
-            <p className="mt-3 text-gray-400 font-bold text-sm">네이버 실제 방문자 리뷰 193건 돌파!</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-10">
             {reviews.map((rev, i) => (
-              <div key={i} className="bg-[#F8F9FA] p-6 hover:bg-white border border-transparent hover:border-gray-100 hover:shadow-md transition-all flex flex-col h-full group">
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-9 h-9 bg-gray-200 rounded-full flex items-center justify-center font-black text-gray-500 text-[10px]">
+              <div key={i} className="bg-[#F8F9FA] p-4 hover:bg-white border border-transparent hover:border-gray-100 hover:shadow-sm transition-all flex flex-col h-full group">
+                <div className="flex items-center justify-between mb-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="w-7 h-7 bg-gray-200 rounded-full flex items-center justify-center font-black text-gray-500 text-[9px]">
                       {rev.author[0]}
                     </div>
                     <div>
-                      <p className="font-black text-gray-900 text-[13px] leading-none flex items-center gap-1.5">
-                        {rev.author} <span className="bg-[#03C75A]/10 text-[#03C75A] text-[8px] px-1.5 py-0.5 rounded-sm font-bold">방문자</span>
+                      <p className="font-black text-gray-900 text-[11px] leading-none flex items-center gap-1">
+                        {rev.author} <span className="bg-[#03C75A]/10 text-[#03C75A] text-[7px] px-1 py-0.5 rounded-sm font-bold uppercase">Verified</span>
                       </p>
-                      <div className="flex gap-0.5 mt-1">
-                        {[...Array(5)].map((_, starIdx) => <Star key={starIdx} size={8} className="fill-[#FEE500] text-[#FEE500]" />)}
-                      </div>
                     </div>
                   </div>
-                  <span className="text-[10px] text-gray-300 font-bold">{rev.date}</span>
+                  <span className="text-[8px] text-gray-300 font-bold">{rev.date}</span>
                 </div>
-                <p className="text-gray-600 font-bold leading-relaxed text-[14px] mb-6 flex-grow">"{rev.content}"</p>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100 mt-auto">
-                   <p className="text-[9px] text-gray-400 font-black uppercase tracking-wider">{rev.model} 매입</p>
+                <p className="text-gray-500 font-bold leading-relaxed text-[12px] mb-3 flex-grow">"{rev.content}"</p>
+                <div className="flex items-center justify-between pt-2.5 border-t border-gray-100 mt-auto">
+                   <p className="text-[8px] text-gray-400 font-black uppercase tracking-wider">{rev.model} 매입</p>
                 </div>
               </div>
             ))}
@@ -190,45 +183,45 @@ const Home: React.FC = () => {
               href={naverReviewUrl} 
               target="_blank" 
               rel="noreferrer" 
-              className="inline-flex items-center gap-3 bg-white border-2 border-gray-900 text-gray-900 px-10 py-5 font-black text-lg hover:bg-gray-50 transition-all shadow-md group"
+              className="inline-flex items-center gap-2 bg-white border border-gray-900 text-gray-900 px-6 py-3 font-black text-sm hover:bg-gray-50 transition-all shadow-sm group"
             >
-              <span className="bg-[#03C75A] text-white w-6 h-6 flex items-center justify-center rounded-sm text-xs font-black">N</span>
-              네이버 플레이스 리뷰 더보기 <ExternalLink size={20} className="group-hover:translate-x-1 transition-transform" />
+              <span className="bg-[#03C75A] text-white w-4 h-4 flex items-center justify-center rounded-sm text-[9px] font-black">N</span>
+              네이버 리뷰 더보기 <ExternalLink size={14} />
             </a>
           </div>
         </div>
       </section>
 
       {/* 4. 매입 시세 안내 */}
-      <section className="py-24 bg-[#F9FAFB]">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tighter text-gray-900">실시간 매입 시세 안내</h2>
-            <p className="text-gray-500 font-bold text-lg">기기 상태에 따라 최적의 매입가를 제시해드립니다.</p>
+      <section className="py-12 bg-[#F9FAFB]">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl md:text-3xl font-black mb-3 tracking-tighter text-gray-900">실시간 매입 시세</h2>
+            <p className="text-gray-400 font-bold text-sm">기기 상태별 최적가를 제시합니다.</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {[
-              { brand: 'Apple', icon: <Apple size={22} />, color: 'bg-gray-900', items: applePrices },
-              { brand: 'Samsung', icon: <Smartphone size={22} />, color: 'bg-[#2563eb]', items: samsungPrices }
+              { brand: 'Apple', icon: <Apple size={16} />, color: 'bg-gray-900', items: applePrices },
+              { brand: 'Samsung', icon: <Smartphone size={16} />, color: 'bg-[#1D4ED8]', items: samsungPrices }
             ].map((col, idx) => (
-              <div key={idx} className="bg-white border border-gray-100 shadow-sm overflow-hidden">
-                <div className={`${col.color} text-white px-8 py-6 flex items-center justify-between`}>
-                  <div className="flex items-center gap-3">
+              <div key={idx} className="bg-white border border-gray-100 shadow-sm">
+                <div className={`${col.color} text-white px-5 py-3 flex items-center justify-between`}>
+                  <div className="flex items-center gap-1.5">
                     {col.icon}
-                    <h3 className="text-xl font-black uppercase tracking-widest">{col.brand === 'Apple' ? 'iPhone Series' : 'Galaxy Series'}</h3>
+                    <h3 className="text-sm font-black uppercase tracking-widest">{col.brand}</h3>
                   </div>
                 </div>
-                <div className="p-4 space-y-2">
+                <div className="p-1">
                   {col.items.map((item) => (
-                    <div key={item.id} className="bg-white border-b border-gray-50 p-6 flex justify-between items-center hover:bg-gray-50 transition-all">
+                    <div key={item.id} className="bg-white border-b border-gray-50 p-4 flex justify-between items-center hover:bg-gray-50 transition-all">
                       <div>
-                        <p className="text-lg font-black text-gray-900 leading-tight">{item.model}</p>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mt-1">{item.capacity}</p>
+                        <p className="text-[13px] font-black text-gray-900 leading-tight">{item.model}</p>
+                        <p className="text-[8px] font-black text-gray-400 uppercase tracking-widest mt-0.5">{item.capacity}</p>
                       </div>
                       <div className="text-right">
-                        <p className="text-[10px] text-[#C80000] font-black mb-0.5 uppercase tracking-tighter">Premium Buy</p>
-                        <p className="text-2xl font-black text-gray-900 tracking-tighter">{item.maxPrice.toLocaleString()}원</p>
+                        <p className="text-[8px] text-[#C80000] font-black mb-0.5 uppercase tracking-tighter">Premium</p>
+                        <p className="text-lg font-black text-gray-900 tracking-tighter">{item.maxPrice.toLocaleString()}원</p>
                       </div>
                     </div>
                   ))}
@@ -236,142 +229,95 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="text-center mt-12">
-            <Link to="/prices" className="inline-flex items-center gap-2 text-[#C80000] font-black hover:text-black transition-all text-sm uppercase tracking-[0.2em] border-b-2 border-[#C80000] pb-1">
-              시세표 전체보기 <ChevronRight size={16} />
+          <div className="text-center mt-8">
+            <Link to="/prices" className="inline-flex items-center gap-1 text-[#C80000] font-black hover:text-black transition-all text-[10px] uppercase tracking-[0.2em] border-b-2 border-[#C80000] pb-0.5">
+              전체 시세표 보기 <ChevronRight size={12} />
             </Link>
           </div>
         </div>
       </section>
 
-      {/* 5. 오시는 길 - 디자인 상세 조정 */}
-      <section className="py-24 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="text-center mb-20">
-             <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">매장 오시는 길</h2>
-             {/* 상단 뱃지: 초록색 배경 꽉 채움 */}
-             <div className="inline-flex items-center gap-2 bg-[#03C75A] text-white px-6 py-2.5 text-xs font-black italic tracking-widest shadow-lg rounded-full">
-                <Navigation size={16} fill="white" /> DONGRAE PHONEPLUS GUIDE
+      {/* 5. 오시는 길 */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="text-center mb-10">
+             <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tighter mb-3">매장 오시는 길</h2>
+             <div className="inline-flex items-center gap-1.5 bg-[#03C75A] text-white px-3 py-1.5 text-[9px] font-black tracking-widest rounded-full">
+                <Navigation size={12} fill="white" /> PHONEPLUS MAP
              </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
-            {/* Step 01: 출구 안내 */}
-            <div className="bg-gray-50 p-10 border-t-8 border-[#FEE500] flex flex-col items-center text-center shadow-sm">
-               <div className="w-20 h-20 bg-[#FEE500] text-black flex items-center justify-center font-black text-4xl mb-8 shadow-lg">2</div>
-               <h3 className="text-2xl font-black text-gray-900 mb-4">동래역 2번 출구 앞</h3>
-               <p className="text-gray-500 font-bold leading-relaxed">
-                 지하철 1호선 동래역 2번 출구로<br/>나오시면 바로 앞에 위치한<br/>
-                 <span className="text-gray-900 font-black">롯데캐슬 퀸 상가</span> 건물입니다.
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-8">
+            <div className="bg-gray-50 p-6 border-t-4 border-[#FEE500] text-center shadow-sm">
+               <div className="w-12 h-12 bg-[#FEE500] text-black flex items-center justify-center font-black text-2xl mx-auto mb-4">2</div>
+               <h3 className="text-base font-black text-gray-900 mb-2">동래역 2번 출구</h3>
+               <p className="text-gray-400 font-bold text-[11px] leading-relaxed">
+                 1호선 동래역 2번 출구 바로 앞<br/><span className="text-gray-900">롯데캐슬 퀸 상가</span> 건물입니다.
                </p>
             </div>
 
-            {/* Step 02: 건물 진입 안내 */}
-            <div className="bg-gray-50 p-10 border-t-8 border-gray-900 flex flex-col items-center text-center shadow-sm">
-               <div className="w-20 h-20 bg-gray-900 text-white flex items-center justify-center mb-8 shadow-lg">
-                 <ArrowUpRight size={40} />
+            <div className="bg-gray-50 p-6 border-t-4 border-gray-900 text-center shadow-sm">
+               <div className="w-12 h-12 bg-gray-900 text-white flex items-center justify-center mx-auto mb-4">
+                 <ArrowUpRight size={24} />
                </div>
-               <h3 className="text-2xl font-black text-gray-900 mb-4">상가 진입 안내</h3>
-               <p className="text-gray-500 font-bold leading-relaxed">
-                 상가 우측의 <span className="text-gray-900 font-black">계단 또는 엘리베이터</span>를<br/>
-                 이용하여 2층으로 올라와주세요.<br/>
-                 (입구가 매우 찾기 쉽습니다!)
+               <h3 className="text-base font-black text-gray-900 mb-2">상가 2층 진입</h3>
+               <p className="text-gray-400 font-bold text-[11px] leading-relaxed">
+                 상가 우측 <span className="text-gray-900">엘리베이터</span>를<br/>
+                 이용해 2층으로 올라오세요.
                </p>
             </div>
 
-            {/* Step 03: 최종 위치 안내 */}
-            <div className="bg-gray-50 p-10 border-t-8 border-[#C80000] flex flex-col items-center text-center shadow-sm">
-               <div className="w-20 h-20 bg-[#C80000] text-white flex items-center justify-center font-black text-3xl mb-8 shadow-lg">2F</div>
-               <h3 className="text-2xl font-black text-gray-900 mb-4">2층 헌혈의 집 옆</h3>
-               <p className="text-gray-500 font-bold leading-relaxed">
-                 2층으로 올라오시면 바로 보이는<br/>
-                 <span className="text-[#C80000] font-black">헌혈의 집 바로 옆</span> 매장입니다.<br/>
-                 빨간색 'Phone Plus' 간판을 찾으세요!
+            <div className="bg-gray-50 p-6 border-t-4 border-[#C80000] text-center shadow-sm">
+               <div className="w-12 h-12 bg-[#C80000] text-white flex items-center justify-center font-black text-xl mx-auto mb-4">2F</div>
+               <h3 className="text-base font-black text-gray-900 mb-2">헌혈의 집 옆</h3>
+               <p className="text-gray-400 font-bold text-[11px] leading-relaxed">
+                 2층에 위치한<br/>
+                 <span className="text-[#C80000] font-black">헌혈의 집 바로 옆</span> 매장입니다.
                </p>
             </div>
           </div>
 
-          <div className="bg-[#C80000] p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-10 shadow-2xl relative overflow-hidden group">
-            <div className="absolute -right-10 -bottom-10 text-white/10 opacity-50 group-hover:scale-110 transition-transform duration-700">
-               <MapPin size={300} strokeWidth={1} />
-            </div>
-            
+          <div className="bg-gray-900 p-6 md:p-8 flex flex-col lg:flex-row items-center justify-between gap-6 shadow-xl relative overflow-hidden">
             <div className="text-center lg:text-left relative z-10">
-              <div className="flex items-center justify-center lg:justify-start gap-2 text-white/80 font-black mb-4 tracking-widest uppercase text-xs">
-                <MapPin size={18} className="text-white" /> Location Information
-              </div>
-              <h4 className="text-3xl md:text-5xl font-black text-white leading-tight tracking-tighter">
+              <p className="text-white/40 font-black mb-1.5 tracking-widest uppercase text-[9px]">Location Info</p>
+              <h4 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">
                 부산 동래구 온천천로 165<br/>
                 롯데캐슬 퀸 상가 2층 207호
               </h4>
-              <p className="mt-4 text-white/70 font-bold text-sm">※ 동래역 2번 출구 바로 앞 건물의 2층입니다.</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:auto relative z-10">
-              <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white px-10 py-5 font-black text-xl flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-xl">
-                <Navigation size={24} fill="white" /> 네이버 길찾기
+            <div className="flex flex-col sm:flex-row gap-2 w-full lg:w-auto relative z-10">
+              <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white px-5 py-3 font-black text-sm flex items-center justify-center gap-1.5 hover:brightness-110 transition-all shadow-lg">
+                <Navigation size={16} fill="white" /> 지도보기
               </a>
-              <a href={`tel:${config.contactNumber}`} className="bg-white text-[#C80000] px-10 py-5 font-black text-xl flex items-center justify-center gap-3 hover:bg-gray-50 transition-all shadow-xl">
-                <PhoneCall size={24} /> 매장 전화문의
+              <a href={`tel:${config.contactNumber}`} className="bg-white text-gray-900 px-5 py-3 font-black text-sm flex items-center justify-center gap-1.5 hover:bg-gray-100 transition-all shadow-lg">
+                <PhoneCall size={16} /> 전화문의
               </a>
             </div>
           </div>
-          
-          {/* 안내 박스: 노란색 배경으로 확실하게 변경 */}
-          <div className="mt-12 flex items-center justify-center gap-3 bg-[#FEE500] py-4 px-10 rounded-full w-fit mx-auto text-black font-black text-base shadow-lg border-2 border-white">
-            <Info size={22} className="text-black" /> 찾기 어려우시면 언제든 전화주세요. 사장님이 마중 나가겠습니다!
-          </div>
         </div>
       </section>
 
-      {/* 6. 선택 이유 */}
-      <section className="py-24 bg-[#F9FAFB]">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-20">
-            <h2 className="text-4xl font-black text-gray-900 mb-6 tracking-tighter">동래 폰플러스가 특별한 이유</h2>
-            <p className="text-gray-500 font-bold text-lg">간판의 무게만큼 정직하게 행동합니다.</p>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { icon: <Award className="text-[#C80000]" size={32} />, title: '최고가 매입 원칙', desc: '허위 매입가 없이 현장에서 실제 거래 시세를 정직하게 안내합니다.' },
-              { icon: <Clock4 className="text-[#C80000]" size={32} />, title: '10분 즉시 입금', desc: '기기 검수 완료 즉시 계좌로 전액 입금 처리를 완료합니다.' },
-              { icon: <ShieldCheck className="text-[#C80000]" size={32} />, title: '데이터 보안 파기', desc: '개인정보가 남지 않도록 전문 툴을 통해 데이터를 영구 삭제합니다.' },
-              { icon: <Headphones className="text-[#C80000]" size={32} />, title: '친절 전문 상담', desc: '중고폰 매입뿐만 아니라 개통, 선불폰 상담까지 친절히 안내합니다.' },
-              { icon: <MapPin className="text-[#C80000]" size={32} />, title: '동래역 2번 출구', desc: '지하철역 바로 앞 접근성으로 누구나 찾기 편리한 위치입니다.' },
-              { icon: <UserCheck className="text-[#C80000]" size={32} />, title: 'ICT 정식 인증', desc: '정보통신기술 마켓 정식 인증을 완료한 신뢰받는 전문 업체입니다.' }
-            ].map((r, i) => (
-              <div key={i} className="bg-white p-12 hover:shadow-xl transition-all border border-gray-100 text-center">
-                <div className="mb-8 w-16 h-16 bg-gray-50 flex items-center justify-center mx-auto border-b-4 border-[#C80000]">
-                  {r.icon}
-                </div>
-                <h3 className="text-xl font-black mb-3 text-gray-900">{r.title}</h3>
-                <p className="text-gray-500 font-bold text-sm leading-relaxed">{r.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* 7. 최종 CTA */}
-      <section className="py-32 bg-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl md:text-7xl font-black text-gray-900 mb-12 tracking-tighter leading-tight">
-            믿고 맡기는 동래 폰플러스,<br/><span className="text-[#C80000]">지금 바로 최고가 견적 무료로 확인하세요.</span>
+      {/* 6. 최종 CTA */}
+      <section className="py-16 bg-white border-t border-gray-50">
+        <div className="container mx-auto px-4 text-center max-w-4xl">
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-8 tracking-tighter leading-tight">
+            믿고 맡기는 <span className="text-[#C80000]">동래 폰플러스</span>에서<br/>최고가 시세를 지금 확인하세요.
           </h2>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link to="/sell" className="bg-[#C80000] text-white px-12 py-6 font-black text-2xl hover:bg-black transition-all shadow-xl">최고가 견적 신청</Link>
-            <a href={`tel:${config.contactNumber}`} className="bg-white border-2 border-gray-900 text-gray-900 px-12 py-6 font-black text-2xl hover:bg-gray-50 transition-all">전화 문의하기</a>
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+            <Link to="/sell" className="bg-[#C80000] text-white px-8 py-4 font-black text-lg hover:bg-black transition-all shadow-xl">견적 신청하기</Link>
+            <a href={`tel:${config.contactNumber}`} className="bg-white border-2 border-gray-900 text-gray-900 px-8 py-4 font-black text-lg hover:bg-gray-50 transition-all">전화 문의하기</a>
           </div>
         </div>
       </section>
 
       {/* 플로팅 버튼 */}
-      <div className="fixed bottom-10 right-10 z-[100] flex flex-col gap-4">
-         <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="w-16 h-16 bg-[#03C75A] text-white rounded-none flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border border-white/20">
-            <span className="font-black text-3xl">N</span>
+      <div className="fixed bottom-5 right-5 z-[100] flex flex-col gap-2">
+         <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="w-10 h-10 bg-[#03C75A] text-white rounded-none flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
+            <span className="font-black text-lg">N</span>
          </a>
-         <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="w-16 h-16 bg-[#FEE500] text-black rounded-none flex items-center justify-center shadow-2xl hover:scale-110 transition-transform border border-white/20">
-            <MessageSquare size={32} />
+         <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="w-10 h-10 bg-[#FEE500] text-black rounded-none flex items-center justify-center shadow-xl hover:scale-110 transition-transform">
+            <MessageSquare size={18} />
          </a>
       </div>
     </div>
