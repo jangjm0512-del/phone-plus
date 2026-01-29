@@ -50,7 +50,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* 1. 히어로 섹션 - 우측 박스 정렬 및 대칭 최적화 */}
+      {/* 1. 히어로 섹션 - 내 폰 시세 확인 클릭 시 매입 시세(/prices)로 이동 */}
       <section className="relative overflow-hidden bg-white py-10 lg:py-16">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -65,7 +65,7 @@ const Home: React.FC = () => {
               </h1>
               
               <div className="flex flex-col gap-2 max-w-sm mx-auto lg:mx-0">
-                <Link to="/sell" className="bg-[#C80000] hover:bg-black text-white px-6 py-3.5 font-black text-base shadow-lg transition-all flex items-center justify-center gap-2 group">
+                <Link to="/prices" className="bg-[#C80000] hover:bg-black text-white px-6 py-3.5 font-black text-base shadow-lg transition-all flex items-center justify-center gap-2 group">
                   내 폰 시세 확인 <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
                 </Link>
                 <div className="grid grid-cols-3 gap-1.5">
@@ -85,7 +85,6 @@ const Home: React.FC = () => {
               </div>
             </div>
             
-            {/* 우측 로고 박스 - 대칭 정렬을 위해 너비 고정 및 우측 밀착 */}
             <div className="relative hidden lg:flex lg:justify-end">
                <div className="w-full max-w-[300px] p-2">
                  <div className="bg-[#C80000] p-9 shadow-2xl border-b-[10px] border-black flex items-center justify-center gap-2 font-black tracking-tighter w-full">
@@ -106,7 +105,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 2. 선불폰 프로모션 섹션 - 상단 히어로 박스와 수직 정렬(대칭) */}
+      {/* 2. 선불폰 프로모션 섹션 */}
       <section className="py-10 bg-[#F9FAFB]">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <div className="bg-white p-6 md:p-8 border-l-[8px] border-[#C80000] shadow-sm flex flex-col lg:flex-row items-center justify-between gap-8 relative overflow-hidden">
@@ -127,7 +126,6 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* 우측 가격 박스 - 상단 박스와 동일한 너비(300px) 및 정렬 적용 */}
             <div className="w-full lg:w-[300px] z-10 lg:flex lg:justify-end">
                <div className="bg-gray-50/50 p-6 text-center flex flex-col items-center border border-gray-100 w-full max-w-[300px]">
                   <p className="text-gray-400 font-black text-[9px] mb-1 uppercase tracking-[0.2em]">개통비 포함 파격가</p>
@@ -229,9 +227,12 @@ const Home: React.FC = () => {
               </div>
             ))}
           </div>
-          <div className="text-center mt-8">
+          <div className="flex flex-col items-center gap-4 mt-8">
             <Link to="/prices" className="inline-flex items-center gap-1 text-[#C80000] font-black hover:text-black transition-all text-[10px] uppercase tracking-[0.2em] border-b-2 border-[#C80000] pb-0.5">
               전체 시세표 보기 <ChevronRight size={12} />
+            </Link>
+            <Link to="/sell" className="inline-flex items-center gap-1 text-gray-900 font-black hover:text-[#C80000] transition-all text-[10px] uppercase tracking-[0.2em] border-b-2 border-gray-900 pb-0.5">
+              내 폰 팔기 <ChevronRight size={12} />
             </Link>
           </div>
         </div>
