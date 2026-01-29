@@ -354,7 +354,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Final CTA Section (Restored & Polished) */}
+      {/* Final CTA Section (오시는 길 안내 밑으로 이동) */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-5xl text-center">
           <div className="bg-[#C80000]/5 rounded-[3rem] p-12 md:p-20 border border-[#C80000]/10 shadow-sm relative overflow-hidden group">

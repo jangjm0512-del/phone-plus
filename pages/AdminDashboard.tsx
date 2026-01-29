@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { useAppContext } from '../AppContext';
+import { useAppContext } from '../AppContext.tsx';
 import { 
   Settings, Plus, Trash2, Edit, Save, LogOut, Smartphone, 
   FileText, LayoutDashboard, Eye, EyeOff, Check, X, AlertCircle
@@ -301,7 +301,7 @@ const AdminDashboard: React.FC = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {prices.map((p) => (
+                        {(isEditMode ? draftPrices : prices).map((p) => (
                           <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors group">
                             <td className="px-4 py-4">
                               <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
@@ -353,7 +353,7 @@ const AdminDashboard: React.FC = () => {
                     </button>
                   </div>
                   <div className="space-y-4">
-                    {posts.map(post => (
+                    {(isEditMode ? draftPosts : posts).map(post => (
                       <div key={post.id} className="flex items-center justify-between p-4 bg-white border border-gray-100 rounded-xl">
                         <div>
                           <h4 className="font-black">{post.title}</h4>

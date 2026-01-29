@@ -10,7 +10,7 @@ import AdminDashboard from './pages/AdminDashboard.tsx';
 import { 
   Menu, X, Phone, User, Settings, MapPin, Clock, 
   MessageCircle, MessageSquare, ChevronRight, Navigation, 
-  Eye, Check, RotateCcw, ShieldCheck, ExternalLink
+  Eye, Check, RotateCcw, ShieldCheck, ExternalLink, Lock
 } from 'lucide-react';
 
 const Logo: React.FC = () => (
@@ -70,7 +70,7 @@ const Header: React.FC = () => {
             <div className="flex items-center gap-4 border-l border-gray-100 pl-6 ml-2">
                {isAdmin && (
                   <Link to="/admin" className="text-[9px] font-bold text-red-600 bg-red-50 px-2 py-0.5 rounded border border-red-100 uppercase">
-                    Admin
+                    Admin Panel
                   </Link>
                )}
                <a href={`tel:${config.contactNumber}`} className="flex items-center gap-2 bg-gray-900 hover:bg-[#C80000] text-white px-4 py-2 rounded-full font-black transition-all shadow-lg text-[11px] uppercase">
@@ -165,9 +165,15 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="pt-6 border-t border-gray-200 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">
-            &copy; {new Date().getFullYear()} PhonePlus. All Rights Reserved.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-[9px] font-bold text-gray-300 uppercase tracking-widest">
+              &copy; {new Date().getFullYear()} PhonePlus. All Rights Reserved.
+            </p>
+            {/* Admin Login 링크 시인성 강화 */}
+            <Link to="/admin" className="text-[10px] font-black text-gray-400 hover:text-[#C80000] transition-all flex items-center gap-1 uppercase tracking-widest">
+              <Lock size={10} /> Admin Dashboard
+            </Link>
+          </div>
           <a href={certUrl} target="_blank" rel="noreferrer" className="flex items-center grayscale opacity-40 hover:grayscale-0 hover:opacity-100 transition-all">
              <img src={certImg} alt="사전승낙서" className="h-8" />
           </a>
