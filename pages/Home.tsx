@@ -24,21 +24,46 @@ const Home: React.FC = () => {
   const { prices, config } = useAppContext();
   const [isVisible, setIsVisible] = useState(false);
   const [activePriceIdx, setActivePriceIdx] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
 
+  // 환경 감지 및 애니메이션 효과 제어
   useEffect(() => {
     setIsVisible(true);
+    
+    // 모바일 여부 체크
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera;
+      const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+      setIsMobile(mobileRegex.test(userAgent) || window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+
     const timer = setInterval(() => {
       setActivePriceIdx((prev) => (prev + 1));
     }, 2500);
-    return () => clearInterval(timer);
+    
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
   
   const applePrices = prices.filter(p => p.brand === 'Apple');
   const samsungPrices = prices.filter(p => p.brand === 'Samsung');
 
-  const naverPlaceUrl = "https://naver.me/xcnayRi3";
-  const naverTalkTalkUrl = "https://talk.naver.com/W5IQBE";
-  const naverReviewUrl = "https://naver.me/FvQD86Sc";
+  // 환경별 링크 설정 (여기서 주소를 수정하세요)
+  const links = {
+    naverPlace: "https://naver.me/xcnayRi3",
+    naverReview: "https://naver.me/FvQD86Sc",
+    // 톡톡: 모바일/PC 분기 (현재는 네이버가 자동 처리해주지만 수동 설정 가능)
+    talkTalk: isMobile ? "https://talk.naver.com/W5IQBE" : "https://talk.naver.com/W5IQBE",
+    // 카톡: 모바일/PC 분기
+    kakao: isMobile ? "https://open.kakao.com/o/sEKLRvQh" : "https://open.kakao.com/o/sEKLRvQh",
+    // 전화: 모바일은 tel:, PC는 안내 팝업 등 활용 가능
+    phone: `tel:${config.contactNumber}`
+  };
 
   const reviews = [
     { author: "쑤빙96", model: "아이폰 15 프로", content: "사장님 진짜 친절하세요... 딴데보다 10만원은 더 잘 쳐주신 듯 ㅠㅠ 설명도 완전 꼼꼼하시고 검수도 투명하게 눈앞에서 다 보여주셔서 믿음이 확 가네요!!", date: "2025.01.10" },
@@ -88,15 +113,15 @@ const Home: React.FC = () => {
                   내 폰 시세 확인 <ChevronRight size={20} className="group-hover:translate-x-1.5 transition-transform" />
                 </Link>
                 <div className="grid grid-cols-3 gap-2.5">
-                  <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="bg-[#FEE500] text-black py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all border border-black/5 active:scale-95">
+                  <a href={links.kakao} target="_blank" rel="noreferrer" className="bg-[#FEE500] text-black py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all border border-black/5 active:scale-95">
                     <MessageSquare size={18} fill="black" />
                     <span>카톡상담</span>
                   </a>
-                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all active:scale-95">
+                  <a href={links.talkTalk} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all active:scale-95">
                     <span className="font-black text-lg leading-none">N</span>
                     <span>톡톡상담</span>
                   </a>
-                  <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-white text-black border border-gray-100 py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all active:scale-95">
+                  <a href={links.naverPlace} target="_blank" rel="noreferrer" className="bg-white text-black border border-gray-100 py-3 rounded-xl font-black text-[11px] flex flex-col items-center justify-center gap-1.5 hover:shadow-lg transition-all active:scale-95">
                     <Navigation size={18} className="text-[#03C75A]" fill="#03C75A" />
                     <span>길찾기</span>
                   </a>
@@ -150,7 +175,7 @@ const Home: React.FC = () => {
                   <p className="text-5xl font-black text-white mb-8 tracking-tighter italic transition-all hover:scale-105">
                     10,000<span className="text-lg not-italic text-gray-500 ml-1 uppercase">won</span>
                   </p>
-                  <a href={naverTalkTalkUrl} target="_blank" rel="noreferrer" className="w-full bg-[#03C75A] text-white px-6 py-4 rounded-xl font-black text-base hover:bg-[#02b351] transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95">
+                  <a href={links.talkTalk} target="_blank" rel="noreferrer" className="w-full bg-[#03C75A] text-white px-6 py-4 rounded-xl font-black text-base hover:bg-[#02b351] transition-all flex items-center justify-center gap-2 shadow-lg active:scale-95">
                      <span className="font-black text-xl">N</span> 톡톡 실시간 상담
                   </a>
                </div>
@@ -199,7 +224,7 @@ const Home: React.FC = () => {
 
           <div className="flex justify-center">
             <a 
-              href={naverReviewUrl} 
+              href={links.naverReview} 
               target="_blank" 
               rel="noreferrer" 
               className="inline-flex items-center gap-3 bg-white border-2 border-gray-900 text-gray-900 px-8 py-4 rounded-xl font-black text-base hover:bg-gray-900 hover:text-white transition-all shadow-xl active:scale-95"
@@ -343,10 +368,10 @@ const Home: React.FC = () => {
             </div>
             
             <div className="flex flex-col gap-4 w-full lg:w-[300px] relative z-10">
-              <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white p-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-3 hover:scale-[1.05] transition-all shadow-xl active:scale-95 group/btn">
+              <a href={links.naverPlace} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white p-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-3 hover:scale-[1.05] transition-all shadow-xl active:scale-95 group/btn">
                 <Navigation size={24} fill="white" className="group-hover/btn:animate-bounce" /> 네이버 지도
               </a>
-              <a href={`tel:${config.contactNumber}`} className="bg-white text-gray-900 p-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-3 hover:scale-[1.05] transition-all shadow-xl active:scale-95 group/btn">
+              <a href={links.phone} className="bg-white text-gray-900 p-6 rounded-[2rem] font-black text-xl flex items-center justify-center gap-3 hover:scale-[1.05] transition-all shadow-xl active:scale-95 group/btn">
                 <PhoneCall size={24} className="group-hover/btn:animate-pulse" /> 전화 상담
               </a>
             </div>
@@ -354,7 +379,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Final CTA Section (오시는 길 안내 밑으로 이동) */}
+      {/* Final CTA Section */}
       <section className="py-24 bg-white">
         <div className="container mx-auto px-4 max-w-5xl text-center">
           <div className="bg-[#C80000]/5 rounded-[3rem] p-12 md:p-20 border border-[#C80000]/10 shadow-sm relative overflow-hidden group">
@@ -373,7 +398,7 @@ const Home: React.FC = () => {
                 <Smartphone size={24} /> 내 폰 매입 신청하기 <ArrowUpRight size={24} className="group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
               </Link>
               <a 
-                href={`tel:${config.contactNumber}`} 
+                href={links.phone} 
                 className="w-full sm:w-auto bg-white text-gray-900 border-2 border-gray-900 px-10 py-5 rounded-2xl font-black text-xl hover:bg-gray-900 hover:text-white transition-all shadow-lg flex items-center justify-center gap-3"
               >
                 전화로 즉시 견적 문의
@@ -383,11 +408,11 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Integrated Floating Action Buttons */}
+      {/* Integrated Floating Action Buttons - 환경별 링크 적용 */}
       <div className="fixed bottom-8 right-6 z-[100] flex flex-col gap-4 group">
         {/* Phone Call Button */}
         <a 
-          href={`tel:${config.contactNumber}`} 
+          href={links.phone} 
           className="w-14 h-14 bg-gray-900 text-white rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all relative overflow-hidden group/btn"
         >
           <div className="absolute inset-0 bg-white/10 opacity-0 group-hover/btn:opacity-100 transition-opacity"></div>
@@ -396,7 +421,7 @@ const Home: React.FC = () => {
 
         {/* Naver TalkTalk Button */}
         <a 
-          href={naverTalkTalkUrl} 
+          href={links.talkTalk} 
           target="_blank" 
           rel="noreferrer" 
           className="w-14 h-14 bg-[#03C75A] text-white rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group/btn"
@@ -406,7 +431,7 @@ const Home: React.FC = () => {
 
         {/* KakaoTalk Button */}
         <a 
-          href="https://open.kakao.com/o/sEKLRvQh" 
+          href={links.kakao} 
           target="_blank" 
           rel="noreferrer" 
           className="w-14 h-14 bg-[#FEE500] text-black rounded-2xl flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group/btn"
