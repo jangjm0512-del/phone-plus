@@ -15,7 +15,8 @@ const AdminDashboard: React.FC = () => {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === 'admin123') { // Simple demo password
+    // 요청하신 새로운 비밀번호로 변경
+    if (password === 'Heths1026@') { 
       setIsAdmin(true);
       setLoginError(false);
     } else {
@@ -67,7 +68,7 @@ const AdminDashboard: React.FC = () => {
             <div>
               <input 
                 type="password" 
-                placeholder="비밀번호를 입력하세요 (기본: admin123)"
+                placeholder="비밀번호를 입력하세요"
                 className="w-full px-6 py-4 rounded-xl border-2 border-gray-100 focus:border-yellow-400 outline-none transition-all font-bold"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

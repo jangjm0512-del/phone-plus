@@ -77,8 +77,8 @@ const Home: React.FC = () => {
                     <span className="font-black text-xl leading-none">N</span>
                     <span>톡톡상담</span>
                   </a>
-                  {/* 길찾기 버튼 개선: 흰색 배경, 검정 글자, 초록색 로고 */}
-                  <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-white text-gray-900 border border-gray-100 py-4 font-black text-sm flex flex-col items-center justify-center gap-1 hover:bg-gray-50 transition-all shadow-sm">
+                  {/* 길찾기 버튼: 배경 흰색, 글씨 검정, 아이콘 초록색 채우기 */}
+                  <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-white text-black border border-gray-200 py-4 font-black text-sm flex flex-col items-center justify-center gap-1 hover:bg-gray-50 transition-all shadow-sm">
                     <Navigation size={20} className="text-[#03C75A]" fill="#03C75A" />
                     <span>길찾기</span>
                   </a>
@@ -244,12 +244,12 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* 5. 오시는 길 - 헤더 디자인 최적화 및 정보 카드 레드 변경 */}
+      {/* 5. 오시는 길 - 디자인 상세 조정 */}
       <section className="py-24 bg-white overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-20">
              <h2 className="text-4xl md:text-6xl font-black text-gray-900 tracking-tighter mb-6">매장 오시는 길</h2>
-             {/* 상단 뱃지: 초록색 배경 가득 채움 */}
+             {/* 상단 뱃지: 초록색 배경 꽉 채움 */}
              <div className="inline-flex items-center gap-2 bg-[#03C75A] text-white px-6 py-2.5 text-xs font-black italic tracking-widest shadow-lg rounded-full">
                 <Navigation size={16} fill="white" /> DONGRAE PHONEPLUS GUIDE
              </div>
@@ -307,7 +307,7 @@ const Home: React.FC = () => {
               <p className="mt-4 text-white/70 font-bold text-sm">※ 동래역 2번 출구 바로 앞 건물의 2층입니다.</p>
             </div>
             
-            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto relative z-10">
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:auto relative z-10">
               <a href={naverPlaceUrl} target="_blank" rel="noreferrer" className="bg-[#03C75A] text-white px-10 py-5 font-black text-xl flex items-center justify-center gap-3 hover:scale-105 transition-all shadow-xl">
                 <Navigation size={24} fill="white" /> 네이버 길찾기
               </a>
@@ -317,8 +317,8 @@ const Home: React.FC = () => {
             </div>
           </div>
           
-          {/* 안내 박스: 노란색 배경으로 시인성 극대화 */}
-          <div className="mt-12 flex items-center justify-center gap-3 bg-[#FEE500] py-4 px-10 rounded-full w-fit mx-auto text-black font-black text-base shadow-lg animate-pulse border-2 border-white">
+          {/* 안내 박스: 노란색 배경으로 확실하게 변경 */}
+          <div className="mt-12 flex items-center justify-center gap-3 bg-[#FEE500] py-4 px-10 rounded-full w-fit mx-auto text-black font-black text-base shadow-lg border-2 border-white">
             <Info size={22} className="text-black" /> 찾기 어려우시면 언제든 전화주세요. 사장님이 마중 나가겠습니다!
           </div>
         </div>

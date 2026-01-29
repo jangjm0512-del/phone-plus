@@ -115,22 +115,22 @@ const Header: React.FC = () => {
 const Footer: React.FC = () => {
   const { config } = useAppContext();
   return (
-    <footer className="bg-gray-100 text-gray-900 py-20 border-t border-gray-200">
+    <footer className="bg-gray-200 text-gray-900 py-20 border-t border-gray-300">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 lg:gap-16">
           <div className="col-span-1 md:col-span-1">
             <Link to="/" className="inline-block mb-8">
               <Logo />
             </Link>
-            <p className="text-gray-600 leading-relaxed text-sm mb-8 font-bold">
+            <p className="text-gray-700 leading-relaxed text-sm mb-8 font-bold">
               부산 동래구 중고폰 매입 전문 브랜드.<br/>
               정직한 간판 아래 정직한 가격으로<br/>고객님을 맞이하겠습니다.
             </p>
             <div className="flex space-x-3">
-               <a href="https://naver.me/xcnayRi3" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-all shadow-sm">
+               <a href="https://naver.me/xcnayRi3" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white border border-gray-300 rounded-none flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-all shadow-sm">
                  <span className="text-gray-900 font-black text-base">N</span>
                </a>
-               <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white border border-gray-200 rounded-none flex items-center justify-center cursor-pointer hover:bg-gray-200 transition-all shadow-sm">
+               <a href="https://open.kakao.com/o/sEKLRvQh" target="_blank" rel="noreferrer" className="w-10 h-10 bg-white border border-gray-300 rounded-none flex items-center justify-center cursor-pointer hover:bg-gray-100 transition-all shadow-sm">
                  <MessageSquare size={18} className="text-gray-900" />
                </a>
             </div>
@@ -138,7 +138,7 @@ const Footer: React.FC = () => {
           
           <div>
             <h3 className="text-xs font-black text-[#C80000] uppercase tracking-[0.2em] mb-8">영업 안내</h3>
-            <div className="space-y-4 text-sm font-bold text-gray-600">
+            <div className="space-y-4 text-sm font-bold text-gray-700">
               <p>평일: 10:00 - 20:00</p>
               <p>토요일: 11:00 - 20:00</p>
               <p className="text-gray-900">일요일: 사전 예약 필수</p>
@@ -147,7 +147,7 @@ const Footer: React.FC = () => {
 
           <div>
             <h3 className="text-xs font-black text-[#C80000] uppercase tracking-[0.2em] mb-8">오시는 길</h3>
-            <div className="text-sm font-bold text-gray-600 leading-relaxed">
+            <div className="text-sm font-bold text-gray-700 leading-relaxed">
               <p className="mb-1">부산광역시 동래구 온천천로 165</p>
               <p>동래 롯데캐슬 퀸 102동 207호</p>
               <p className="text-gray-900 mt-2">(동래역 2번 출구 바로 앞)</p>
@@ -155,8 +155,8 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xs font-black text-gray-500 uppercase tracking-[0.2em] mb-8">정보</h3>
-            <div className="text-[11px] font-bold text-gray-500 space-y-1">
+            <h3 className="text-xs font-black text-gray-600 uppercase tracking-[0.2em] mb-8">정보</h3>
+            <div className="text-[11px] font-bold text-gray-600 space-y-1">
               <p>상호: 폰플러스 동래역점</p>
               <p>대표: 전미성 | 사업자: 472-43-01176</p>
               <p className="mt-8 text-gray-500">Copyright &copy; {new Date().getFullYear()} PhonePlus.</p>

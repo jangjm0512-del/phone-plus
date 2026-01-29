@@ -85,7 +85,8 @@ const Sell: React.FC = () => {
             {steps.map((step, i) => (
               <div key={i} className="text-center relative">
                 <div className="w-16 h-16 bg-[#FEE500] text-black rounded-3xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-yellow-100 relative z-10">
-                  {React.cloneElement(step.icon as React.ReactElement, { size: 28 })}
+                  {/* Fix: Cast icon to React.ReactElement<any> to allow 'size' prop in cloneElement */}
+                  {React.cloneElement(step.icon as React.ReactElement<any>, { size: 28 })}
                 </div>
                 {i < steps.length - 1 && (
                   <div className="hidden lg:block absolute top-8 left-1/2 w-full h-[2px] bg-gray-100 -z-0"></div>
