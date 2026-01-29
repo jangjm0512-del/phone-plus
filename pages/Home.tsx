@@ -50,6 +50,12 @@ const Home: React.FC = () => {
     { author: "아이폰매니아", model: "아이폰 14 프로맥스", content: "아이폰 고질병인 잔상 부분도 과하게 감가 안하시고 최대한 가격 맞춰주려는 모습에 감동.. 중고폰 팔 땐 무조건 여기에요.", date: "2025.02.16" }
   ];
 
+  const mapSteps = [
+    { id: '01', title: '동래역 2번 출구', color: 'bg-[#FEE500]', text: '1호선 동래역 2번 출구 정면 롯데캐슬 퀸 상가 건물입니다.' },
+    { id: '02', title: '상가 2층 이동', color: 'bg-gray-900 text-white', text: '상가 측면 엘리베이터를 이용하여 2층으로 편하게 올라오세요.' },
+    { id: '03', title: '매장 방문', color: 'bg-[#C80000] text-white', text: '2층 헌혈의 집 바로 옆 매장에 폰플러스가 있습니다.' }
+  ];
+
   return (
     <div className="flex flex-col bg-white">
       {/* Hero Section */}
@@ -200,7 +206,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Price Section (Animated Ticker) - Reduced Height for PC */}
+      {/* Price Section (Animated Ticker) */}
       <section className="py-20 bg-[#111827] text-white overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-6">
@@ -216,7 +222,6 @@ const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Apple Ticker */}
             <div className="bg-gray-800/40 rounded-[2.5rem] border border-white/5 shadow-2xl overflow-hidden h-[400px] flex flex-col relative">
               <div className="p-8 border-b border-white/5 flex items-center justify-between relative z-10 bg-gray-800/90 backdrop-blur-md">
                 <div className="flex items-center gap-3">
@@ -243,7 +248,6 @@ const Home: React.FC = () => {
               </div>
             </div>
 
-            {/* Samsung Ticker */}
             <div className="bg-blue-900/10 rounded-[2.5rem] border border-white/5 shadow-2xl overflow-hidden h-[400px] flex flex-col relative">
               <div className="p-8 border-b border-white/5 flex items-center justify-between relative z-10 bg-[#0a1122]/90 backdrop-blur-md">
                 <div className="flex items-center gap-3">
@@ -279,14 +283,29 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-24 bg-white">
+      {/* Way to Visit Steps (Restored Section) */}
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
-             <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tighter mb-4">오시는 길 안내</h2>
-             <p className="text-gray-400 font-bold text-lg">동래역 2번 출구 바로 앞, 도보 1분 거리에 위치합니다.</p>
+             <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tighter mb-4">가까운 매장 안내</h2>
+             <p className="text-gray-400 font-bold text-lg">동래역 2번 출구 바로 앞, 가장 편리한 위치에 있습니다.</p>
           </div>
 
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {mapSteps.map((step, i) => (
+              <div key={i} className="bg-gray-50 p-8 rounded-[2rem] border border-gray-100 shadow-sm group hover:-translate-y-1 transition-all duration-300">
+                 <div className={`w-12 h-12 ${step.color} rounded-2xl flex items-center justify-center font-black text-xl mb-6 shadow-lg`}>{step.id}</div>
+                 <h3 className="text-lg font-black text-gray-900 mb-3">{step.title}</h3>
+                 <p className="text-gray-400 font-bold text-[13px] leading-relaxed">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Map Information Card */}
+      <section className="pb-24 bg-white">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="bg-gray-900 p-10 md:p-16 rounded-[3.5rem] flex flex-col lg:flex-row items-center justify-between gap-12 shadow-2xl relative overflow-hidden">
             <div className="text-center lg:text-left relative z-10 flex-1">
               <span className="text-red-500 font-black mb-5 tracking-[0.4em] uppercase text-[11px] block">Location Info</span>
