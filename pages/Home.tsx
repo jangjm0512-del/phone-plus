@@ -50,7 +50,7 @@ const Home: React.FC = () => {
 
   return (
     <div className="flex flex-col bg-white">
-      {/* 1. 히어로 섹션 - 내 폰 시세 확인 클릭 시 매입 시세(/prices)로 이동 */}
+      {/* 1. 히어로 섹션 */}
       <section className="relative overflow-hidden bg-white py-10 lg:py-16">
         <div className="container mx-auto px-4 md:px-6 max-w-5xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -282,8 +282,8 @@ const Home: React.FC = () => {
             <div className="text-center lg:text-left relative z-10">
               <p className="text-white/40 font-black mb-1.5 tracking-widest uppercase text-[9px]">Location Info</p>
               <h4 className="text-xl md:text-2xl font-black text-white leading-tight tracking-tighter">
-                부산 동래구 온천천로 165<br/>
-                롯데캐슬 퀸 상가 2층 207호
+                부산광역시 동래구 온천천로 165<br/>
+                롯데캐슬 퀸 상가 102동 2층 207호
               </h4>
             </div>
             

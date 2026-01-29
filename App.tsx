@@ -182,8 +182,8 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-[8px] font-black text-[#C80000] uppercase tracking-[0.2em] mb-2">오시는길</h3>
             <div className="text-[10px] font-bold text-gray-500 leading-tight">
-              <p>부산 동래구 온천천로 165</p>
-              <p>롯데캐슬 퀸 상가 207호</p>
+              <p>부산광역시 동래구 온천천로 165</p>
+              <p>102동 2층 207호 (동래 롯데캐슬 퀸)</p>
               <p className="text-gray-400 mt-1 text-[8px]">동래역 2번 출구 앞</p>
             </div>
           </div>
@@ -191,10 +191,9 @@ const Footer: React.FC = () => {
           <div>
             <h3 className="text-[8px] font-black text-[#C80000] uppercase tracking-[0.2em] mb-2">사업자 정보</h3>
             <div className="text-[10px] font-bold text-gray-500 space-y-0.5 leading-tight">
-              <p>상호: 폰플러스 (동래역점)</p>
+              <p className="text-gray-900">상호: 부산 중고폰 매입 폰플러스 동래 선불폰&알뜰폰</p>
               <p>대표자: 전미성</p>
-              <p>사업자번호: 384-06-02558</p>
-              <p>통신판매신고: 제 2024-부산동래-1105 호</p>
+              <p>사업자등록번호: 472-43-01176</p>
             </div>
           </div>
         </div>
