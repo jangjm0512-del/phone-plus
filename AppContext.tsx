@@ -24,6 +24,12 @@ interface AppContextType extends AppState {
   setIsAdmin: (val: boolean) => void;
 }
 
+const STORAGE_KEYS = {
+  PRICES: 'phoneplus_prices_v1',
+  POSTS: 'phoneplus_posts_v1',
+  CONFIG: 'phoneplus_config_v1'
+};
+
 const defaultPrices: PriceItem[] = [
   // --- Apple iPhone 17 Series (Speculative based on Sheet Top Row) ---
   { id: 'ap-17pm-512', brand: 'Apple', model: '아이폰 17 PROMAX', capacity: '512GB', maxPrice: 1940000, minPrice: 1470000, isHot: true },
@@ -53,20 +59,6 @@ const defaultPrices: PriceItem[] = [
   { id: 'ap-12pm-128', brand: 'Apple', model: '아이폰 12 PROMAX', capacity: '128GB', maxPrice: 480000, minPrice: 300000 },
   { id: 'ap-11-128', brand: 'Apple', model: '아이폰 11', capacity: '128GB', maxPrice: 230000, minPrice: 140000 },
 
-  // --- Apple Older Models (XS ~ 6) ---
-  { id: 'ap-xsmax-256', brand: 'Apple', model: '아이폰 XS MAX', capacity: '256GB', maxPrice: 160000, minPrice: 110000 },
-  { id: 'ap-xs-256', brand: 'Apple', model: '아이폰 XS', capacity: '256GB', maxPrice: 140000, minPrice: 85000 },
-  { id: 'ap-xr-128', brand: 'Apple', model: '아이폰 XR', capacity: '128GB', maxPrice: 125000, minPrice: 65000 },
-  { id: 'ap-x-64', brand: 'Apple', model: '아이폰 X', capacity: '64GB', maxPrice: 100000, minPrice: 60000 },
-  { id: 'ap-8p-256', brand: 'Apple', model: '아이폰 8 PLUS', capacity: '256GB', maxPrice: 80000, minPrice: 50000 },
-  { id: 'ap-8-64', brand: 'Apple', model: '아이폰 8', capacity: '64GB', maxPrice: 55000, minPrice: 30000 },
-  { id: 'ap-7p-128', brand: 'Apple', model: '아이폰 7 PLUS', capacity: '128GB', maxPrice: 40000, minPrice: 25000 },
-  { id: 'ap-7-32', brand: 'Apple', model: '아이폰 7', capacity: '32GB', maxPrice: 25000, minPrice: 15000 },
-  { id: 'ap-6s-64', brand: 'Apple', model: '아이폰 6S', capacity: '64GB', maxPrice: 20000, minPrice: 10000 },
-  { id: 'ap-6-64', brand: 'Apple', model: '아이폰 6', capacity: '64GB', maxPrice: 15000, minPrice: 5000 },
-  { id: 'ap-se3-128', brand: 'Apple', model: '아이폰 SE3', capacity: '128GB', maxPrice: 200000, minPrice: 125000 },
-  { id: 'ap-se2-128', brand: 'Apple', model: '아이폰 SE2', capacity: '128GB', maxPrice: 110000, minPrice: 70000 },
-
   // --- Samsung Galaxy S25 (Speculative) ---
   { id: 'ss-s25u-256', brand: 'Samsung', model: '갤럭시 S25 울트라', capacity: '256GB', maxPrice: 1250000, minPrice: 1050000, isHot: true },
   { id: 'ss-s25-256', brand: 'Samsung', model: '갤럭시 S25', capacity: '256GB', maxPrice: 800000, minPrice: 650000 },
@@ -83,22 +75,14 @@ const defaultPrices: PriceItem[] = [
   { id: 'ss-s21u-256', brand: 'Samsung', model: '갤럭시 S21 울트라', capacity: '256GB', maxPrice: 250000, minPrice: 180000 },
   { id: 'ss-s20u-256', brand: 'Samsung', model: '갤럭시 S20 울트라', capacity: '256GB', maxPrice: 170000, minPrice: 120000 },
 
-  // --- Samsung Galaxy S10/S9/S8 ---
-  { id: 'ss-s10-128', brand: 'Samsung', model: '갤럭시 S10', capacity: '128GB', maxPrice: 110000, minPrice: 75000 },
-  { id: 'ss-s9-64', brand: 'Samsung', model: '갤럭시 S9', capacity: '64GB', maxPrice: 85000, minPrice: 55000 },
-  { id: 'ss-s8-64', brand: 'Samsung', model: '갤럭시 S8', capacity: '64GB', maxPrice: 65000, minPrice: 45000 },
-
   // --- Samsung Note Series ---
   { id: 'ss-n20u-256', brand: 'Samsung', model: '갤럭시 노트 20 울트라', capacity: '256GB', maxPrice: 280000, minPrice: 230000, isHot: true },
-  { id: 'ss-n20-256', brand: 'Samsung', model: '갤럭시 노트 20', capacity: '256GB', maxPrice: 160000, minPrice: 105000 },
   { id: 'ss-n10p-256', brand: 'Samsung', model: '갤럭시 노트 10+', capacity: '256GB', maxPrice: 180000, minPrice: 130000 },
-  { id: 'ss-n10-256', brand: 'Samsung', model: '갤럭시 노트 10', capacity: '256GB', maxPrice: 110000, minPrice: 75000 },
   { id: 'ss-n9-128', brand: 'Samsung', model: '갤럭시 노트 9', capacity: '128GB', maxPrice: 105000, minPrice: 65000 },
   { id: 'ss-n8-64', brand: 'Samsung', model: '갤럭시 노트 8', capacity: '64GB', maxPrice: 75000, minPrice: 45000 },
 
   // --- Samsung Fold/Flip Series 1 ~ 7 ---
   { id: 'ss-f7-256', brand: 'Samsung', model: '갤럭시 Z 폴드 7', capacity: '256GB', maxPrice: 1450000, minPrice: 1200000, isHot: true },
-  { id: 'ss-fl7-256', brand: 'Samsung', model: '갤럭시 Z 플립 7', capacity: '256GB', maxPrice: 750000, minPrice: 600000, isHot: true },
   { id: 'ss-f6-256', brand: 'Samsung', model: '갤럭시 Z 폴드 6', capacity: '256GB', maxPrice: 1130000, minPrice: 1000000 },
   { id: 'ss-fl6-256', brand: 'Samsung', model: '갤럭시 Z 플립 6', capacity: '256GB', maxPrice: 530000, minPrice: 440000 },
   { id: 'ss-f5-256', brand: 'Samsung', model: '갤럭시 Z 폴드 5', capacity: '256GB', maxPrice: 700000, minPrice: 610000 },
@@ -115,9 +99,6 @@ const defaultPrices: PriceItem[] = [
   { id: 'ss-a35-128', brand: 'Samsung', model: '갤럭시 A35', capacity: '128GB', maxPrice: 150000, minPrice: 90000 },
   { id: 'ss-a25-128', brand: 'Samsung', model: '갤럭시 A25', capacity: '128GB', maxPrice: 120000, minPrice: 90000 },
   { id: 'ss-a15-128', brand: 'Samsung', model: '갤럭시 A15', capacity: '128GB', maxPrice: 90000, minPrice: 55000 },
-  { id: 'ss-a80-128', brand: 'Samsung', model: '갤럭시 A80', capacity: '128GB', maxPrice: 80000, minPrice: 40000 },
-  { id: 'ss-a52-128', brand: 'Samsung', model: '갤럭시 A52s', capacity: '128GB', maxPrice: 120000, minPrice: 85000 },
-  { id: 'ss-a32-128', brand: 'Samsung', model: '갤럭시 A32', capacity: '128GB', maxPrice: 85000, minPrice: 55000 },
 ];
 
 const defaultPosts: Post[] = [
@@ -135,15 +116,41 @@ const defaultConfig: SiteConfig = {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [prices, setPrices] = useState<PriceItem[]>(defaultPrices);
-  const [posts, setPosts] = useState<Post[]>(defaultPosts);
-  const [config, setConfig] = useState<SiteConfig>(defaultConfig);
-  const [isAdmin, setIsAdmin] = useState<boolean>(false);
+  // Load initial state from LocalStorage or defaults
+  const [prices, setPrices] = useState<PriceItem[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.PRICES);
+    return saved ? JSON.parse(saved) : defaultPrices;
+  });
+  
+  const [posts, setPosts] = useState<Post[]>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.POSTS);
+    return saved ? JSON.parse(saved) : defaultPosts;
+  });
+  
+  const [config, setConfig] = useState<SiteConfig>(() => {
+    const saved = localStorage.getItem(STORAGE_KEYS.CONFIG);
+    return saved ? JSON.parse(saved) : defaultConfig;
+  });
 
+  const [isAdmin, setIsAdmin] = useState<boolean>(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  
   const [draftPrices, setDraftPrices] = useState<PriceItem[]>([]);
   const [draftPosts, setDraftPosts] = useState<Post[]>([]);
   const [draftConfig, setDraftConfig] = useState<SiteConfig>(defaultConfig);
+
+  // Persistence effect
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.PRICES, JSON.stringify(prices));
+  }, [prices]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.POSTS, JSON.stringify(posts));
+  }, [posts]);
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEYS.CONFIG, JSON.stringify(config));
+  }, [config]);
 
   const startEditing = () => {
     setDraftPrices([...prices]);
@@ -157,10 +164,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setPosts([...draftPosts]);
     setConfig({ ...draftConfig });
     setIsEditMode(false);
+    alert('변경사항이 안전하게 브라우저에 저장되었습니다.');
   };
 
   const discardChanges = () => {
-    setIsEditMode(false);
+    if (confirm('모든 수정사항을 취소하시겠습니까?')) {
+      setIsEditMode(false);
+    }
   };
 
   const activePrices = isEditMode ? draftPrices : prices;
