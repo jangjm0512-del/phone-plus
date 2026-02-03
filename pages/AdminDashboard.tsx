@@ -5,6 +5,7 @@ import {
   Settings, Plus, Trash2, Edit, Save, LogOut, Smartphone, 
   FileText, LayoutDashboard, Eye, EyeOff, Check, X, AlertCircle
 } from 'lucide-react';
+import { PriceItem } from '../types';
 
 const AdminDashboard: React.FC = () => {
   const { 
@@ -17,7 +18,11 @@ const AdminDashboard: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loginError, setLoginError] = useState(false);
 
-  // Form states
+  // Edit states for specific items
+  const [editingPriceId, setEditingPriceId] = useState<string | null>(null);
+  const [editPriceData, setEditPriceData] = useState<Partial<PriceItem>>({});
+
+  // Form states for new items
   const [newPrice, setNewPrice] = useState({ brand: '', model: '', capacity: '', maxPrice: '', minPrice: '', imageUrl: '' });
   const [newPost, setNewPost] = useState({ title: '', content: '', category: '공지사항' });
 
@@ -32,9 +37,7 @@ const AdminDashboard: React.FC = () => {
   };
 
   const toggleEditMode = () => {
-    if (isEditMode) {
-      // Logic for finalizing is handled by Save/Discard buttons
-    } else {
+    if (!isEditMode) {
       startEditing();
     }
   };
@@ -58,6 +61,24 @@ const AdminDashboard: React.FC = () => {
       setPrices([...prices, newItem]);
     }
     setNewPrice({ brand: '', model: '', capacity: '', maxPrice: '', minPrice: '', imageUrl: '' });
+  };
+
+  const startEditingPrice = (item: PriceItem) => {
+    if (!isEditMode) startEditing();
+    setEditingPriceId(item.id);
+    setEditPriceData(item);
+  };
+
+  const cancelEditingPrice = () => {
+    setEditingPriceId(null);
+    setEditPriceData({});
+  };
+
+  const updatePriceInDraft = () => {
+    if (!editingPriceId) return;
+    setDraftPrices(draftPrices.map(p => p.id === editingPriceId ? { ...p, ...editPriceData } as PriceItem : p));
+    setEditingPriceId(null);
+    setEditPriceData({});
   };
 
   const deletePrice = (id: string) => {
@@ -140,7 +161,7 @@ const AdminDashboard: React.FC = () => {
             {isEditMode ? (
               <>
                 <button 
-                  onClick={discardChanges}
+                  onClick={() => { discardChanges(); setEditingPriceId(null); }}
                   className="px-6 py-3 rounded-xl border border-gray-200 text-gray-500 font-black flex items-center gap-2 hover:bg-gray-50 transition-all"
                 >
                   <X size={18} /> 취소
@@ -211,7 +232,7 @@ const AdminDashboard: React.FC = () => {
               {isEditMode && (
                 <div className="mb-8 p-4 bg-indigo-50 border border-indigo-100 rounded-2xl flex items-center gap-3 text-indigo-700">
                   <AlertCircle size={20} />
-                  <p className="text-sm font-bold">미리보기 편집 중입니다. 상단의 저장 버튼을 눌러야 실제 사이트에 반영됩니다.</p>
+                  <p className="text-sm font-bold">미리보기 편집 중입니다. 각 행을 수정한 뒤 상단의 [변경사항 저장] 버튼을 누르세요.</p>
                 </div>
               )}
 
@@ -220,65 +241,51 @@ const AdminDashboard: React.FC = () => {
                   <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
                     <h2 className="text-3xl font-black">실시간 매입 시세 관리</h2>
                     <div className="bg-yellow-50 text-yellow-700 px-4 py-2 rounded-xl text-sm font-bold">
-                      총 {prices.length}개 모델 등록됨
+                      총 {(isEditMode ? draftPrices : prices).length}개 모델 등록됨
                     </div>
                   </div>
 
                   {/* Add Price Form */}
                   <div className={`p-6 rounded-3xl mb-10 space-y-4 border ${isEditMode ? 'bg-indigo-50/30 border-indigo-100' : 'bg-gray-50 border-gray-100'}`}>
+                    <h4 className="text-[13px] font-black uppercase tracking-widest text-gray-400 mb-2">새 기종 등록</h4>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">브랜드</label>
-                        <input 
-                          type="text" 
-                          placeholder="Apple" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
-                          value={newPrice.brand}
-                          onChange={(e) => setNewPrice({...newPrice, brand: e.target.value})}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">모델명</label>
-                        <input 
-                          type="text" 
-                          placeholder="iPhone 17" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
-                          value={newPrice.model}
-                          onChange={(e) => setNewPrice({...newPrice, model: e.target.value})}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">이미지 URL</label>
-                        <input 
-                          type="text" 
-                          placeholder="https://..." 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
-                          value={newPrice.imageUrl}
-                          onChange={(e) => setNewPrice({...newPrice, imageUrl: e.target.value})}
-                        />
-                      </div>
+                      <input 
+                        type="text" 
+                        placeholder="브랜드 (예: Apple)" 
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
+                        value={newPrice.brand}
+                        onChange={(e) => setNewPrice({...newPrice, brand: e.target.value})}
+                      />
+                      <input 
+                        type="text" 
+                        placeholder="모델명 (예: iPhone 16)" 
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
+                        value={newPrice.model}
+                        onChange={(e) => setNewPrice({...newPrice, model: e.target.value})}
+                      />
+                      <input 
+                        type="text" 
+                        placeholder="용량 (예: 256GB)" 
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
+                        value={newPrice.capacity}
+                        onChange={(e) => setNewPrice({...newPrice, capacity: e.target.value})}
+                      />
                     </div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-                      <div>
-                        <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">최고가 (A급)</label>
-                        <input 
-                          type="number" 
-                          placeholder="2000000" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
-                          value={newPrice.maxPrice}
-                          onChange={(e) => setNewPrice({...newPrice, maxPrice: e.target.value})}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-black text-gray-400 mb-2 uppercase tracking-tighter">최저가 (중고)</label>
-                        <input 
-                          type="number" 
-                          placeholder="1500000" 
-                          className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
-                          value={newPrice.minPrice}
-                          onChange={(e) => setNewPrice({...newPrice, minPrice: e.target.value})}
-                        />
-                      </div>
+                      <input 
+                        type="number" 
+                        placeholder="최고가 (만원 제외하고 입력)" 
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
+                        value={newPrice.maxPrice}
+                        onChange={(e) => setNewPrice({...newPrice, maxPrice: e.target.value})}
+                      />
+                      <input 
+                        type="number" 
+                        placeholder="중고가 (만원 제외하고 입력)" 
+                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-indigo-400 outline-none font-bold"
+                        value={newPrice.minPrice}
+                        onChange={(e) => setNewPrice({...newPrice, minPrice: e.target.value})}
+                      />
                       <button 
                         onClick={addPrice}
                         className={`h-[50px] rounded-xl font-black flex items-center justify-center gap-2 transition-all shadow-md ${isEditMode ? 'bg-indigo-600 text-white hover:bg-indigo-700' : 'bg-yellow-400 text-black hover:bg-yellow-500'}`}
@@ -293,30 +300,79 @@ const AdminDashboard: React.FC = () => {
                     <table className="w-full text-left">
                       <thead>
                         <tr className="text-gray-400 text-xs font-black uppercase tracking-widest border-b border-gray-100">
-                          <th className="px-4 py-4 w-12 text-center">Img</th>
                           <th className="px-4 py-4">Brand</th>
                           <th className="px-4 py-4">Model</th>
-                          <th className="px-4 py-4">Price Range</th>
+                          <th className="px-4 py-4">Capacity</th>
+                          <th className="px-4 py-4">Price Range (만원)</th>
                           <th className="px-4 py-4 text-center">Action</th>
                         </tr>
                       </thead>
                       <tbody>
                         {(isEditMode ? draftPrices : prices).map((p) => (
-                          <tr key={p.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors group">
+                          <tr key={p.id} className={`border-b border-gray-50 hover:bg-gray-50 transition-colors group ${editingPriceId === p.id ? 'bg-yellow-50' : ''}`}>
                             <td className="px-4 py-4">
-                              <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center overflow-hidden">
-                                {p.imageUrl ? <img src={p.imageUrl} className="w-full h-full object-contain" /> : <Smartphone size={16} className="text-gray-400" />}
-                              </div>
+                              {editingPriceId === p.id ? (
+                                <input 
+                                  className="w-full p-1 border rounded" 
+                                  value={editPriceData.brand} 
+                                  onChange={(e) => setEditPriceData({...editPriceData, brand: e.target.value})}
+                                />
+                              ) : <span className="font-bold text-gray-400">{p.brand}</span>}
                             </td>
-                            <td className="px-4 py-4 font-bold text-gray-400">{p.brand}</td>
-                            <td className="px-4 py-4 font-black">{p.model}</td>
-                            <td className="px-4 py-4 font-black text-indigo-600">
-                              {p.maxPrice.toLocaleString()} ~ {p.minPrice.toLocaleString()}원
+                            <td className="px-4 py-4">
+                              {editingPriceId === p.id ? (
+                                <input 
+                                  className="w-full p-1 border rounded" 
+                                  value={editPriceData.model} 
+                                  onChange={(e) => setEditPriceData({...editPriceData, model: e.target.value})}
+                                />
+                              ) : <span className="font-black">{p.model}</span>}
+                            </td>
+                            <td className="px-4 py-4">
+                              {editingPriceId === p.id ? (
+                                <input 
+                                  className="w-full p-1 border rounded" 
+                                  value={editPriceData.capacity} 
+                                  onChange={(e) => setEditPriceData({...editPriceData, capacity: e.target.value})}
+                                />
+                              ) : <span className="text-gray-500">{p.capacity}</span>}
+                            </td>
+                            <td className="px-4 py-4">
+                              {editingPriceId === p.id ? (
+                                <div className="flex gap-1 items-center">
+                                  <input 
+                                    type="number"
+                                    className="w-24 p-1 border rounded" 
+                                    value={editPriceData.maxPrice} 
+                                    onChange={(e) => setEditPriceData({...editPriceData, maxPrice: parseInt(e.target.value)})}
+                                  />
+                                  <span>~</span>
+                                  <input 
+                                    type="number"
+                                    className="w-24 p-1 border rounded" 
+                                    value={editPriceData.minPrice} 
+                                    onChange={(e) => setEditPriceData({...editPriceData, minPrice: parseInt(e.target.value)})}
+                                  />
+                                </div>
+                              ) : (
+                                <span className="font-black text-indigo-600">
+                                  {p.maxPrice.toLocaleString()} ~ {p.minPrice.toLocaleString()}
+                                </span>
+                              )}
                             </td>
                             <td className="px-4 py-4">
                               <div className="flex items-center justify-center gap-2">
-                                <button className="p-2 text-gray-400 hover:text-indigo-500 transition-colors"><Edit size={18} /></button>
-                                <button onClick={() => deletePrice(p.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={18} /></button>
+                                {editingPriceId === p.id ? (
+                                  <>
+                                    <button onClick={updatePriceInDraft} className="p-2 text-green-600 hover:bg-green-100 rounded-full transition-colors"><Check size={18} /></button>
+                                    <button onClick={cancelEditingPrice} className="p-2 text-red-500 hover:bg-red-100 rounded-full transition-colors"><X size={18} /></button>
+                                  </>
+                                ) : (
+                                  <>
+                                    <button onClick={() => startEditingPrice(p)} className="p-2 text-gray-400 hover:text-indigo-500 transition-colors"><Edit size={18} /></button>
+                                    <button onClick={() => deletePrice(p.id)} className="p-2 text-gray-400 hover:text-red-500 transition-colors"><Trash2 size={18} /></button>
+                                  </>
+                                )}
                               </div>
                             </td>
                           </tr>
@@ -349,7 +405,7 @@ const AdminDashboard: React.FC = () => {
                       onClick={addPost} 
                       className={`px-10 py-4 rounded-xl font-black shadow-lg transition-all ${isEditMode ? 'bg-indigo-600 text-white' : 'bg-gray-900 text-white'}`}
                     >
-                      게시글 저장
+                      게시글 등록
                     </button>
                   </div>
                   <div className="space-y-4">
